@@ -1,0 +1,56 @@
+version: '3'
+services:
+  auth_service:
+    image: sample-shopping-app/auth-service
+    container_name: sample-shopping-app-auth-service
+    build: auth-service
+    networks:
+      - appnetwork
+    ports:
+      - 3000:3000
+    depends_on:
+      - db_service  
+    environment:
+      MONGO_URI: 'mongodb://db_service:27017/node-microservices'
+
+  product_service:
+    image: sample-shopping-app/product-service
+    container_name: sample-shopping-app-product-service
+    build: product-service
+    networks:
+      - appnetwork
+    ports:
+      - 3001:3000
+    depends_on:
+      - db_service          
+    environment:
+      MONGO_URI: 'mongodb://db_service:27017/node-microservices'
+
+  order_service:
+    image: sample-shopping-app/order-service
+    container_name: sample-shopping-app-order-service
+    build: order-service
+    networks:
+      - appnetwork
+    ports:
+      - 3002:3000        
+    depends_on:
+      - db_service      
+    environment:
+      MONGO_URI: 'mongodb://db_service:27017/node-microservices'  
+  db_service:
+    image: mongo:latest
+    container_name: sample-shopping-app-db-service
+    volumes:
+      - mongo_data:/data/db 
+    networks:
+      - appnetwork
+    # ports:
+    #   - 27017:27017        
+
+networks:
+  appnetwork:
+    driver: bridge      
+
+volumes:
+  mongo_data:             
