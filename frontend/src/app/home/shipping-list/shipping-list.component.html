@@ -1,0 +1,57 @@
+<div class="appcontainer">
+<h2>Home</h2>
+
+<div *ngIf="qtySetBoxOpen">
+  <label>Quantity</label><input type="text" [(ngModel)]="selectedProductQty" /> <button mat-raised-button color="primary" (click)="addToCart()">Set Quantity</button>
+</div>
+
+<mat-grid-list cols="4" rowHeight="1:1">
+  <ngx-skeleton-loader count="5" *ngIf="products.length==0" appearance="circle"></ngx-skeleton-loader>
+
+  <mat-grid-tile class="example-card-tile" *ngFor="let product of products">
+    
+    <mat-card class="example-card">
+      <mat-card-header>
+        <mat-card-title-group>
+
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>{{product.name}}</mat-card-title>
+        <mat-card-subtitle>{{product._id}}</mat-card-subtitle>
+</mat-card-title-group>
+      </mat-card-header>
+      <img mat-card-md-image *ngIf="product.primaryImage" [src]="product.primaryImage" />
+      <mat-card-content>
+        <h2>{{product.name}}</h2>
+          
+        
+          <div>Price {{product.currentPrice}} </div><br />
+          
+          <div *ngIf="product.attributes">
+            <table>
+              
+            <div *ngFor="let attribute of product.attributes">
+                <tr>
+                  <td>{{attribute.name}}: </td>
+                  <td>{{attribute.value}}</td>
+                  
+                </tr>
+              </div>
+            </table>
+              
+          </div>
+        
+        <!-- <p>
+          The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
+          A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
+          bred for hunting.
+        </p> -->
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="openCartQtyBox(product)">Add to Cart</button> 
+        
+        <!-- <button mat-raised-button color="primary">Add to Favorites</button> -->
+      </mat-card-actions>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>
+</div>

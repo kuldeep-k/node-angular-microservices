@@ -1,0 +1,98 @@
+<h1>Product</h1>
+<mat-chip>Home</mat-chip> / <mat-chip>Product</mat-chip> / <mat-chip>Add Product</mat-chip>
+<br />
+<mat-grid-list style="min-height: 500px;" cols="3" [style.background]="'gray'">
+    <mat-grid-tile><mat-card class="example-card">
+        <mat-card-header>
+          <!-- <div mat-card-avatar class="example-header-image"></div> -->
+          <mat-card-title>Product Picture </mat-card-title>
+          <mat-card-subtitle>Uploaad </mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image *ngIf="productImagePath" [src]="productImagePath" alt="">
+        <mat-card-content>
+        <p>
+                <mat-label>Image</mat-label>
+                <input type="file" (change)="uploadImage($event)" name="productImage" id="productImage">
+            </p>
+        </mat-card-content>
+        <mat-card-actions>
+            <button (click)="saveProduct()" mat-raised-button color="primary">Save</button>
+        </mat-card-actions>
+        </mat-card>
+</mat-grid-tile>
+    <mat-grid-tile class="product-form-tile">
+
+
+        
+            
+            
+    <form [formGroup]="productForm" ngSubmit="saveProduct()">
+        <mat-card class="example-card" style="min-height: 500px;">
+        <mat-card-header>
+          <!-- <div mat-card-avatar class="example-header-image"></div> -->
+          <mat-card-title>Product</mat-card-title>
+          <mat-card-subtitle>Add </mat-card-subtitle>
+        </mat-card-header>
+        <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
+        <mat-card-content>
+                <p>
+                    <!-- <mat-form-field appearance="fill">
+                        <mat-label>Image</mat-label>
+                        <input matFile type="file" formControlName="productImage" id="productImage">
+                    </mat-form-field> -->
+
+            <mat-form-field appearance="fill">
+                <mat-label>Name</mat-label>
+                <input matInput formControlName="name" id="name">
+            </mat-form-field>
+            </p>
+            <p>
+            <mat-form-field appearance="fill">
+                <mat-label>Price </mat-label>
+                <input matInput formControlName="currentPrice" id="currentPrice">
+            </mat-form-field>
+            </p>
+            <p>
+            <mat-form-field appearance="fill">
+                <mat-label>Quantity </mat-label>
+                <input matInput formControlName="stockQty" id="stockQty">
+            </mat-form-field>
+            </p>
+
+            <p>
+                <mat-label>Attributes </mat-label>
+                <ng-container formArrayName="attributes">
+                    <ng-container *ngFor="let attributeForm of attributes.controls; let i = index">
+                        <div class="attribute-form-row" [formGroupName]="i">
+                            <mat-form-field appearance="fill">
+                                <input matInput
+                                       formControlName="name"
+                                       placeholder="Name">
+                            </mat-form-field>
+                            <mat-form-field appearance="fill">
+                                <input matInput
+                                       formControlName="value"
+                                       placeholder="Value">
+                            </mat-form-field>
+                            <mat-icon class="delete-btn" (click)="deleteAttribute(i)">
+                                delete_forever</mat-icon>
+                        </div>
+                    </ng-container>
+                </ng-container>
+
+                <button mat-mini-fab (click)="addAttribute()">
+                    <mat-icon class="add-course-btn">add</mat-icon>
+                </button>
+            
+            </p>
+            
+        </mat-card-content>
+        <mat-card-actions>
+          <button (click)="saveProduct()" mat-raised-button color="primary">Save</button>
+        </mat-card-actions>
+      </mat-card>
+    </form>
+    </mat-grid-tile>
+    <mat-grid-tile></mat-grid-tile>
+    </mat-grid-list>
+    

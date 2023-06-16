@@ -1,0 +1,13 @@
+/* .cart-list mat-card {
+    width: calc(100% - 70px);
+    height: calc(100% - 70px);
+  } */
+
+
+  .cart-list {
+    width: 95%;
+  }
+
+  .cart-list-cont .mat-grid-tile-content  {
+    align-items: first !important;
+  }

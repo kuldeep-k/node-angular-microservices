@@ -1,0 +1,24 @@
+/* .card-wrapper {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  } */
+
+  .appcontainer {
+    overflow: scroll;
+  }
+
+  .example-card-tile {
+    min-height: 250px;
+  }
+
+  .example-card {
+    max-width: 400px;
+    min-height: 200px;
+    overflow: scroll;
+  }
+  
+  .example-header-image {
+    /* background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg'); */
+    background-size: cover;
+  }

@@ -1,0 +1,76 @@
+<h2>Profile</h2>
+<div class="mat-elevation-z8">
+
+<mat-grid-list cols="2" [style.background]="'gray'">
+    <mat-grid-tile>
+        <mat-card class="example-card">
+            <mat-card-header>
+              <!-- <div mat-card-avatar class="example-header-image"></div> -->
+              <mat-card-title>Update Profile</mat-card-title>
+              <mat-card-subtitle></mat-card-subtitle>
+            </mat-card-header>
+            <img mat-card-image #profileImage [src]="profileImageUrl" alt="Photo of a Shiba Inu">
+            <mat-card-content>
+                <p>
+                    <input type="file" #fileInput (change)="uploadFileEvt($event)" name="profile_image" id="profile_image" />
+
+                </p>
+            </mat-card-content>
+            <mat-card-actions>
+                <button (click)="uploadProfileImage()" mat-raised-button color="primary">Upload Profile Image</button>
+            </mat-card-actions>
+          </mat-card>
+    </mat-grid-tile>
+
+    <mat-grid-tile>
+        <form [formGroup]="profileForm" ngSubmit="updateProfile()">
+            <mat-card class="example-card">
+            <mat-card-header>
+            <!-- <div mat-card-avatar class="example-header-image"></div> -->
+            <mat-card-title>Update Profile</mat-card-title>
+            <mat-card-subtitle></mat-card-subtitle>
+            </mat-card-header>
+            <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
+            <mat-card-content>
+                <p>
+                <mat-form-field appearance="fill">
+                    <mat-label>First Name</mat-label>
+                    <input matInput formControlName="first_name" id="first_name">
+                </mat-form-field>
+                </p>
+                <p>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Last Name</mat-label>
+                        <input matInput formControlName="last_name" id="last_name">
+                    </mat-form-field>
+                </p>
+
+                <p>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Gender</mat-label>
+                        <!-- <input matInput formControlName="gender" id="gender"> -->
+                        <mat-select formControlName="gender" id="gender">
+                            <mat-option value="male">Male</mat-option>
+                            <mat-option value="female">Female</mat-option>
+                            <mat-option value="other">Other</mat-option>
+                          </mat-select>
+                    </mat-form-field>
+                </p>
+
+                <p>
+                    <mat-form-field appearance="fill">
+                        <mat-label>DOB</mat-label>
+                        <input matInput type="date" formControlName="dob" id="dob">
+                    </mat-form-field>
+                </p>
+
+            </mat-card-content>
+            <mat-card-actions>
+            <button (click)="updateProfile()" mat-raised-button color="primary">Update Profile</button>
+            </mat-card-actions>
+        </mat-card>
+        </form>
+    </mat-grid-tile>
+    <mat-grid-tile></mat-grid-tile>
+    </mat-grid-list>
+</div>
