@@ -38,6 +38,20 @@ services:
       - db_service      
     environment:
       MONGO_URI: 'mongodb://db_service:27017/node-microservices'  
+
+  frontend_service:
+    image: sample-shopping-app/frontend-service
+    container_name: sample-shopping-app-frontend-service
+    build: frontend
+    networks:
+      - appnetwork
+    ports:
+      - 9010:80        
+    volumes:
+      - ./frontend/nginx:/etc/nginx/conf.d      
+    environment:
+      MONGO_URI: 'mongodb://db_service:27017/node-microservices'  
+
   db_service:
     image: mongo:latest
     container_name: sample-shopping-app-db-service
