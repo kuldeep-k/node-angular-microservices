@@ -15,7 +15,8 @@ class AuthService {
         }
         let userData = await userModel.create({
             username: signupData.username,
-            password: signupData.password
+            password: signupData.password,
+            role: "USER"
         });
         userData = userData.toObject();
         delete userData.password;
@@ -37,7 +38,7 @@ class AuthService {
             let token = await jwt.sign({
                 id: exUser._id,
                 username: exUser.username,
-                role: "USER",
+                role: exUser.role,
                 exp: Math.floor(Date.now() / 1000) + (60*60*3)
             }, secret, {algorithm: algo});
             return {token, userData: exUser };
@@ -160,6 +161,20 @@ class AuthService {
         userData1 = userData1.toObject();
         delete userData1.password;
         return userData1;
+    }
+
+    async userSeeder() {
+        let users = await userModel.find();
+        if(users.length === 0) {
+            await userModel.create({
+                username: "admin",
+                password: "admin",
+                role: "ADMIN"
+            });
+            
+        }
+        
+        
     }
 }
 

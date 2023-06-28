@@ -33,7 +33,7 @@ services:
     networks:
       - appnetwork
     ports:
-      - 3002:3000        
+      - 3002:3000
     depends_on:
       - db_service      
     environment:
@@ -52,19 +52,31 @@ services:
     environment:
       MONGO_URI: 'mongodb://db_service:27017/node-microservices'  
 
+  gateway_service:
+    image: nginx:latest
+    container_name: sample-shopping-app-gateway-service
+    networks:
+      - appnetwork
+    ports:
+      - 9005:80        
+    volumes:
+      - ./gateway/nginx:/etc/nginx/conf.d      
+    environment:
+      MONGO_URI: 'mongodb://db_service:27017/node-microservices'  
+
   db_service:
     image: mongo:latest
     container_name: sample-shopping-app-db-service
     volumes:
-      - mongo_data:/data/db 
+      - mongo_data:/data/db
     networks:
       - appnetwork
-    # ports:
-    #   - 27017:27017        
+    ports:
+      - 31017:27017        
 
 networks:
   appnetwork:
     driver: bridge      
 
 volumes:
-  mongo_data:             
+  mongo_data:

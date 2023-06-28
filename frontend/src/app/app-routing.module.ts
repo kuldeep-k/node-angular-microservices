@@ -22,9 +22,15 @@ const routes: Routes = [
     { path: 'cart-list', component: CartListComponent, canActivate: [AuthGuard] },
     { path: 'order-list', component: OrderListComponent, canActivate: [AuthGuard] },
     { path: 'order-details/:id', component: OrderDetailsListComponent, canActivate: [AuthGuard] },
-    { path: 'products', component: ProductsComponent, canActivate: [AuthGuard] },
-    { path: 'products/add', component: ProductFormComponent, canActivate: [AuthGuard] }, 
-    { path: 'products/edit/:id', component: ProductFormComponent, canActivate: [AuthGuard] } ,
+    { path: 'products', component: ProductsComponent, canActivate: [AuthGuard], data: {
+      role: "ADMIN"
+    } },
+    { path: 'products/add', component: ProductFormComponent, canActivate: [AuthGuard], data: {
+      role: "ADMIN"
+    }  }, 
+    { path: 'products/edit/:id', component: ProductFormComponent, canActivate: [AuthGuard], data: {
+      role: "ADMIN"
+    }  } ,
     
     { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] } ,
     { path: 'change-password', component: ChangePasswordComponent, canActivate: [AuthGuard] } ,

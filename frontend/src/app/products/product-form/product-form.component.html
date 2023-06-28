@@ -1,8 +1,12 @@
 <h1>Product</h1>
 <mat-chip>Home</mat-chip> / <mat-chip>Product</mat-chip> / <mat-chip>Add Product</mat-chip>
 <br />
-<mat-grid-list style="min-height: 500px;" cols="3" [style.background]="'gray'">
-    <mat-grid-tile><mat-card class="example-card">
+<mat-grid-list cols="2" [style.background]="'gray'">
+    <mat-grid-tile>
+        
+        
+        
+        <mat-card class="example-card">
         <mat-card-header>
           <!-- <div mat-card-avatar class="example-header-image"></div> -->
           <mat-card-title>Product Picture </mat-card-title>
@@ -47,11 +51,23 @@
             </mat-form-field>
             </p>
             <p>
+                <mat-form-field appearance="fill">
+                    <mat-label>Brand </mat-label>
+                    <input matInput formControlName="brand" id="brand">
+                </mat-form-field>
+                </p>
+            <p>
             <mat-form-field appearance="fill">
-                <mat-label>Price </mat-label>
-                <input matInput formControlName="currentPrice" id="currentPrice">
+                <mat-label>Original Price </mat-label>
+                <input matInput formControlName="originalPrice" id="originalPrice">
             </mat-form-field>
             </p>
+            <p>
+                <mat-form-field appearance="fill">
+                    <mat-label>Price </mat-label>
+                    <input matInput formControlName="currentPrice" id="currentPrice">
+                </mat-form-field>
+                </p>
             <p>
             <mat-form-field appearance="fill">
                 <mat-label>Quantity </mat-label>
@@ -93,6 +109,6 @@
       </mat-card>
     </form>
     </mat-grid-tile>
-    <mat-grid-tile></mat-grid-tile>
+    <!-- <mat-grid-tile></mat-grid-tile> -->
     </mat-grid-list>
     

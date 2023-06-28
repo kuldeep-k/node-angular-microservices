@@ -8,6 +8,7 @@ var userSchema = new mongoose.Schema({
     password: { type: String, required: true },
     first_name: { type: String },
     last_name: { type: String },
+    role: { type: String, required: true, enum: ['USER', 'ADMIN'], default: 'USER' },
     gender: { type: String },
     dob: { type: Date },
     preferences: { type: Map, of: String },

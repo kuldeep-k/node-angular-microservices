@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthGuardService } from 'src/app/guard/auth-guard.service';
+import { AuthGuard } from 'src/app/guard/auth.guard';
 
 @Component({
   selector: 'app-leftbar',
@@ -8,8 +9,9 @@ import { AuthGuardService } from 'src/app/guard/auth-guard.service';
 })
 export class LeftbarComponent {
   isAuthenticated: boolean = false;
-  
+  isAdmin: boolean = false;
   constructor(private authGuardService: AuthGuardService) {
     this.isAuthenticated = authGuardService.isAuthenticated();
+    this.isAdmin = authGuardService.isAdmin();
   }
 }

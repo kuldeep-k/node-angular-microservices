@@ -5,8 +5,8 @@
     
     <!-- <a style="color: white;"  routerLink="/products">Products</a> -->
     
-      <mat-list-item>Administration</mat-list-item>
-      <mat-list-item *ngIf="isAuthenticated" routerLink="/products">Products </mat-list-item>
+      <mat-list-item *ngIf="isAdmin">Administration</mat-list-item>
+      <mat-list-item *ngIf="isAdmin" routerLink="/products">Products </mat-list-item>
     
     <mat-list-item *ngIf="isAuthenticated" routerLink="/signout">Sign Out</mat-list-item>
     <mat-list-item *ngIf="!isAuthenticated" routerLink="/signin">Sign In</mat-list-item>

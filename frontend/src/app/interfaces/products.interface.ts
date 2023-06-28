@@ -11,6 +11,8 @@ export interface Product {
     _id: string;
     name: string;
     currentPrice: number;
+    originalPrice: number;
+    brand: string;
     stockQty: number;
     attributes: [Attribute],
     productPictures: [ProductPicture],
@@ -25,6 +27,8 @@ export interface Product {
 
   export interface ProductRequest {
     name: string;
+    originalPrice: number;
+    brand: string;  
     currentPrice: number;
     stockQty: number;
     attributes: [Attribute]

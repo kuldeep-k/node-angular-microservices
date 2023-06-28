@@ -7,6 +7,9 @@ var fileUpload = require('express-fileupload')
 
 var indexRouter = require('./routes/index');
 var authRouter = require('./routes/auth');
+
+var authService = require('./services/auth-service');
+
 var mongoose = require('mongoose');
 var cors = require('cors');
 
@@ -37,6 +40,10 @@ app.use(fileUpload({
 }));
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
+
+authService.userSeeder().then(() => {
+  console.log("Seed Executed");
+});
 
 app.use((err, req, res, next) => {
   console.error("Status Code " + res.statusCode)

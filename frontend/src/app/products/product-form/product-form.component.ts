@@ -17,7 +17,7 @@ export class ProductFormComponent implements OnInit, AfterViewInit {
   productImagePath: String = "";
 
   productForm = this.fb.group({
-    productImage: ['', Validators.required],
+    // productImage: ['', Validators.required],
     name: ['', Validators.required],
     brand: [''],
     currentPrice: [0, Validators.required],
@@ -102,6 +102,8 @@ export class ProductFormComponent implements OnInit, AfterViewInit {
       }
       this.productForm.patchValue({
         name: productInfo.name,
+        brand: productInfo.brand,
+        originalPrice: productInfo.originalPrice,
         currentPrice: productInfo.currentPrice,
         stockQty: productInfo.stockQty,
         attributes: productInfo.attributes
@@ -124,6 +126,8 @@ export class ProductFormComponent implements OnInit, AfterViewInit {
       data.name = dt.name; 
       data.currentPrice = dt.currentPrice;
       data.stockQty = dt.stockQty;
+      data.brand = dt.brand,
+      data.originalPrice = dt.originalPrice,
       data.attributes = dt.attributes;
       
       console.log("data ", data);
