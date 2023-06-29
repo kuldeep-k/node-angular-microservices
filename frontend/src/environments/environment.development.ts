@@ -1,4 +1,5 @@
 export const environment = {
+    production: false,
     AUTH_API_HOST: "http://localhost:3000/auth",
     CART_API_HOST: "http://localhost:3002/carts",
     ORDER_API_HOST: "http://localhost:3002/orders",

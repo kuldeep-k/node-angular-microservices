@@ -12,7 +12,7 @@ RUN npm i
 
 COPY . .
 
-RUN npm run build --prod
+RUN npm run build --configuration=compose
 
 FROM nginx:latest
 
