@@ -38,8 +38,6 @@ const connectToDB = () => {
 
 connectToDB();
 
-app.use('/', indexRouter);
-app.use('/products', productRouter);
 
   // getDb().then(conn => {
   //   console.log(process.env.MONGO_URI || 'mongodb://localhost/node-microservices');
@@ -71,6 +69,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(fileUpload({
   limits: { fileSize: 50 * 1024 * 1024 },
 }));
+
+app.use('/', indexRouter);
+app.use('/products', productRouter);
 
 app.use((err, req, res, next) => {
   console.error("Status Code " + res.statusCode)

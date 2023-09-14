@@ -8,7 +8,7 @@ const secret = process.env.TOKEN_SECRET || "ABCDEFGH";
 const algo = process.env.TOKEN_ALGO ?  [process.env.TOKEN_ALGO] : ["HS256"];
 
 router.get('/', async (req, res) => {
-    const products = await ProductService.getProducts();
+    const products = await ProductService.getProducts(req.query);
     // setTimeout(() => {
         return res.status(200).json(products);
     // }, 3000)

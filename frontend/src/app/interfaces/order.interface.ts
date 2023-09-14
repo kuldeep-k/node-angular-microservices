@@ -11,10 +11,23 @@ export interface Order {
     shipDate: Date
 }
 
+export interface Product {
+    _id: String;
+    name: String;    
+}
 
 export interface OrderDetails {
     orderId: String;
     productId: String;
+    product: Product;
+    qty: Number;
+    price: Number;
+}
+
+export interface OrderDetailsObject {
+    orderId: String;
+    productId: String;
+    productName: String;
     qty: Number;
     price: Number;
 }

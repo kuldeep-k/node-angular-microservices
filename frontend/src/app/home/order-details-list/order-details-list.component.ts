@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { OrderDetails } from 'src/app/interfaces/order.interface';
+import { OrderDetails, OrderDetailsObject } from 'src/app/interfaces/order.interface';
 import { OrderService } from 'src/app/services/order.service';
 
 @Component({
@@ -10,9 +10,9 @@ import { OrderService } from 'src/app/services/order.service';
 })
 export class OrderDetailsListComponent {
   orderId: String = "";
-  orderDetails: OrderDetails[] = [];
-  actualColumns: string[] = ['_id', 'productId', 'qty', 'price'];
-  displayedColumns: string[] = ['_id', 'productId', 'qty', 'price'];
+  orderDetails: OrderDetailsObject[] = [];
+  actualColumns: string[] = ['_id', 'productName', 'qty', 'price'];
+  displayedColumns: string[] = ['_id', 'productName', 'qty', 'price'];
 
   constructor(private route: ActivatedRoute, private orderService: OrderService) {
     this.orderId = this.route.snapshot.params['id'];
@@ -27,8 +27,9 @@ export class OrderDetailsListComponent {
         // let a = structuredClone(cart);
         // let a: CartDetailsWithAmount = {...cart};
         // a.amount = Number(cart.price) * Number(cart.qty);
-      
-        return order;
+        let ot: any = order;
+        ot.productName = order.product.name;
+        return ot;
       });
         
     }, error => {

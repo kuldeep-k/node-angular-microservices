@@ -19,7 +19,7 @@ router.post('/', jwt({ secret: secret, algorithms: algo }), async (req, res, nex
     }
 });
 
-router.get('/', jwt({ secret: secret, algorithms: algo }), async (req, res) => {
+router.get('/', jwt({ secret: secret, algorithms: algo }), async (req, res, next) => {
     try {
         const orders = await OrderService.getOrders(req.auth.id);
         return res.status(200).json(orders);
@@ -28,7 +28,7 @@ router.get('/', jwt({ secret: secret, algorithms: algo }), async (req, res) => {
     }
 });
 
-router.get('/:id', jwt({ secret: secret, algorithms: algo }), async (req, res) => {
+router.get('/:id', jwt({ secret: secret, algorithms: algo }), async (req, res, next) => {
     try {
         const orders = await OrderService.getOrder(req.auth.id, req.params.id);
         return res.status(200).json(orders);
@@ -37,7 +37,7 @@ router.get('/:id', jwt({ secret: secret, algorithms: algo }), async (req, res) =
     }
 });
 
-router.get('/:id/details', jwt({ secret: secret, algorithms: algo }), async (req, res) => {
+router.get('/:id/details', jwt({ secret: secret, algorithms: algo }), async (req, res, next) => {
     try {
         const orders = await OrderService.getOrderDetails(req.auth.id, req.params.id);
         return res.status(200).json(orders);
@@ -46,7 +46,7 @@ router.get('/:id/details', jwt({ secret: secret, algorithms: algo }), async (req
     }
 });
 
-router.patch('/:id/payment', jwt({ secret: secret, algorithms: algo }), async (req, res) => {
+router.patch('/:id/payment', jwt({ secret: secret, algorithms: algo }), async (req, res, next) => {
     try {
         const orders = await PaymentService.doPayment(req.auth.id, req.params.id);
         return res.status(200).json(orders);

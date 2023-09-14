@@ -1,3 +1,5 @@
+const mongoose = require("mongoose");
+
 const productModel = require("../models/Product");
 const fs = require("fs");
 
@@ -16,8 +18,20 @@ class ProductService {
         return productCreated;
     }
 
-    async getProducts() {
-        return await productModel.find();
+    async getProducts(reqQuery) {
+        console.log("reqQuery ", reqQuery);
+        let ids = [];
+        if(reqQuery && reqQuery.id) {
+            if(Array.isArray(reqQuery.id)) {
+                ids = reqQuery.id.map(id => new mongoose.Types.ObjectId(id));        
+            } else {
+                ids = [new mongoose.Types.ObjectId(reqQuery.id)];
+            }
+            return await productModel.find({_id: {$in: ids}});
+        } else {
+            return await productModel.find();
+        }
+        
     }
 
     async getProduct(id) {

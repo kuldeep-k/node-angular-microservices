@@ -30,9 +30,7 @@ const connectToDB = () => {
     // mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost/node-microservices');
     mongoose.set('debug', true);
     clearTimeout();
-    app.use('/', indexRouter);
-    app.use('/carts', cartRouter);
-    app.use('/orders', orderRouter);
+    
         
   }).catch(() => {
     console.log(new Date() + " : <<< Got Connection Error >>>");
@@ -61,6 +59,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // catch 404 and forward to error handler
 
+app.use('/', indexRouter);
+app.use('/carts', cartRouter);
+app.use('/orders', orderRouter);
 
 app.use((err, req, res, next) => {
   console.error("Status Code " + res.statusCode)

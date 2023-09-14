@@ -4,6 +4,10 @@ const ObjectId = require('mongoose').Types.ObjectId;
 const ProductClient = require("../helpers/product-client");
 class CartService {
     async addItemIntoCart(userId, cartItem) {
+        const productData = await ProductClient.getProductInfo(cartItem.productId );
+        if(!productData) {
+            throw new Error("Product not found");
+        }    
         let cartObj = await cartModel.findOne({userId: userId});
         if(!cartObj) {
             cartObj = await cartModel.create({

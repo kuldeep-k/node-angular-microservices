@@ -78,6 +78,7 @@ class OrderService {
 
     async getOrders(userId) {
         let orders = await orderModel.find({userId: userId});
+        
         return orders;
     }
 
@@ -97,8 +98,21 @@ class OrderService {
             throw new Error("No Order exists for User");
         }
         let orderDetailsList = await orderDetailsModel.find({orderId: id});
+        let productIdList = orderDetailsList.map(order => order.productId);
 
-        return orderDetailsList;
+        let productList = await ProductClient.getProductInfoForMultiple(productIdList);
+        console.log(productList);
+        let orderDetailsListUpdated = orderDetailsList.map(orderDetails => {
+            let orderDetailsNew = orderDetails.toObject();
+            orderDetailsNew.product = {};
+            productList.forEach(product => {
+                if(product._id + '' == orderDetailsNew.productId + '') {
+                    orderDetailsNew.product = product;
+                }
+            });
+            return orderDetailsNew;
+        });
+        return orderDetailsListUpdated;
         
     }
 }
