@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-configmap
+  labels:
+    app: app-configmap
+data:
+  db-port: "27017"
+  db-name: node-microservices
+  db-service: db-service-service
+  product_api_url: product-service-service
+  # DSN: mongodb://admin:admin$123@db-srv:27017/testdb

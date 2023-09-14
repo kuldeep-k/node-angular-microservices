@@ -6,8 +6,8 @@ var logger = require('morgan');
 var mongoose = require('mongoose');
 var cors = require('cors');
 
-mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost/node-microservices');
-mongoose.set('debug', true);
+// mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost/node-microservices');
+// mongoose.set('debug', true);
 
 
 var indexRouter = require('./routes/index');
@@ -16,6 +16,36 @@ var orderRouter = require('./routes/order');
 const { UnauthorizedError } = require('express-jwt');
 
 var app = express();
+
+
+
+const getDb = require('./config/db')
+
+const connectToDB = () => {
+  console.log(new Date() + " : <<< Trying to connect >>> ");
+  getDb().then(conn => {
+    console.log(new Date() + " : <<< DB Connected >>>");
+    
+    console.log(process.env.MONGO_URI || 'mongodb://localhost/node-microservices');
+    // mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost/node-microservices');
+    mongoose.set('debug', true);
+    clearTimeout();
+    app.use('/', indexRouter);
+    app.use('/carts', cartRouter);
+    app.use('/orders', orderRouter);
+        
+  }).catch(() => {
+    console.log(new Date() + " : <<< Got Connection Error >>>");
+    
+    setTimeout(() => {
+      connectToDB();
+    
+    }, 10000);
+
+  });
+}
+
+connectToDB();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -29,9 +59,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/carts', cartRouter);
-app.use('/orders', orderRouter);
 // catch 404 and forward to error handler
 
 

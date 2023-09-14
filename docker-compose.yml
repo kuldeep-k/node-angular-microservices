@@ -20,7 +20,7 @@ services:
     networks:
       - appnetwork
     ports:
-      - 3001:3000
+      - 3000:3000
     depends_on:
       - db_service          
     environment:
@@ -33,24 +33,24 @@ services:
     networks:
       - appnetwork
     ports:
-      - 3002:3000
+      - 3000:3000
     depends_on:
       - db_service      
     environment:
       MONGO_URI: 'mongodb://db_service:27017/node-microservices'  
 
-  frontend_service:
-    image: sample-shopping-app/frontend-service
-    container_name: sample-shopping-app-frontend-service
-    build: frontend
-    networks:
-      - appnetwork
-    ports:
-      - 9010:80        
-    volumes:
-      - ./frontend/nginx:/etc/nginx/conf.d      
-    environment:
-      MONGO_URI: 'mongodb://db_service:27017/node-microservices'  
+  # frontend_service:
+  #   image: sample-shopping-app/frontend-service
+  #   container_name: sample-shopping-app-frontend-service
+  #   build: frontend
+  #   networks:
+  #     - appnetwork
+  #   ports:
+  #     - 9010:80        
+  #   volumes:
+  #     - ./frontend/nginx:/etc/nginx/conf.d      
+  #   environment:
+  #     MONGO_URI: 'mongodb://db_service:27017/node-microservices'  
 
   gateway_service:
     image: nginx:latest
@@ -72,7 +72,7 @@ services:
     networks:
       - appnetwork
     ports:
-      - 31017:27017        
+      - 27017:27017        
 
 networks:
   appnetwork:

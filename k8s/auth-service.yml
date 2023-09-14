@@ -1,0 +1,64 @@
+#apiVersion: networking.k8s.io/v1
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-service-deployment
+  labels:
+    app: auth-service-deployment
+spec:
+  selector:
+    matchLabels:
+      app: auth-service-deployment
+  replicas: 2    
+  template:
+  
+    metadata:
+      labels:
+        app: auth-service-deployment
+    spec:
+      containers:
+        - name: auth-service-container
+          image: kuldeepkm/sample-shopping-app-auth-service
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "0.1"
+          ports:
+            - containerPort: 3000
+          env:
+            - name: SEC_DBUSER
+              valueFrom:
+                secretKeyRef: 
+                  name:  app-secrets
+                  key: SEC_DBUSER
+            - name: SEC_DBPASS
+              valueFrom:
+                secretKeyRef: 
+                  name:  app-secrets
+                  key: SEC_DBPASS
+            - name: DBURL
+              valueFrom:
+                configMapKeyRef:
+                  name: app-configmap
+                  key: db-service
+            - name: MONGO_URI
+              value: mongodb://$(SEC_DBUSER):$(SEC_DBPASS)@$(DBURL)
+            - name: TLS
+              value: "0"
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service-service
+spec:
+  type: LoadBalancer
+  # externalTrafficPolicy: Local
+  selector:
+    app: auth-service-deployment
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+      nodePort: 30010

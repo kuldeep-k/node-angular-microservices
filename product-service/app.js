@@ -6,16 +6,58 @@ var logger = require('morgan');
 var cors = require('cors')
 var fileUpload = require('express-fileupload')
 const { UnauthorizedError } = require('express-jwt');
-
 var mongoose = require('mongoose');
-
-mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost/node-microservices');
-mongoose.set('debug', true);
 
 var indexRouter = require('./routes/index');
 var productRouter = require('./routes/products');
 var app = express();
 
+
+const getDb = require('./config/db')
+
+const connectToDB = () => {
+  console.log(new Date() + " : <<< Trying to connect >>> ");
+  getDb().then(conn => {
+    console.log(new Date() + " : <<< DB Connected >>>");
+    
+    console.log(process.env.MONGO_URI || 'mongodb://localhost/node-microservices');
+    // mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost/node-microservices');
+    mongoose.set('debug', true);
+    clearTimeout();
+    
+  }).catch((e) => {
+    console.log(new Date() + " : <<< Got Connection Error >>>");
+    console.log(e);
+    setTimeout(() => {
+      connectToDB();
+    
+    }, 10000);
+
+  });
+}
+
+connectToDB();
+
+app.use('/', indexRouter);
+app.use('/products', productRouter);
+
+  // getDb().then(conn => {
+  //   console.log(process.env.MONGO_URI || 'mongodb://localhost/node-microservices');
+  //   // mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost/node-microservices');
+  //   mongoose.set('debug', true);
+  
+  //   app.use('/', indexRouter);
+  //   app.use('/products', productRouter);
+  //   clearTimeout();
+  // }).catch(() => {
+  //   setTimeout(() => {
+  //     connectToDB();
+    
+  //   }, 3000);
+
+  
+  // });
+  
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -29,8 +71,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(fileUpload({
   limits: { fileSize: 50 * 1024 * 1024 },
 }));
-app.use('/', indexRouter);
-app.use('/products', productRouter);
 
 app.use((err, req, res, next) => {
   console.error("Status Code " + res.statusCode)

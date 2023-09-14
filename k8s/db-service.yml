@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-service-deployment
+  labels:
+    app: db-service-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db-service-deployment
+  template:
+    metadata:
+      labels:
+        app: db-service-deployment
+    spec:
+      containers:
+      - name: db-service-deployment
+        image: mongo:6.0
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "0.1"
+        ports:
+        - containerPort: 27017
+        env:
+          - name: MONGO_INITDB_ROOT_USERNAME
+            # value: admin
+            valueFrom:
+              secretKeyRef: 
+                name:  app-secrets
+                key: SEC_DBUSER
+          - name: MONGO_INITDB_ROOT_PASSWORD
+            # value: admin12345
+            valueFrom:
+              secretKeyRef:
+                name:  app-secrets
+                key: SEC_DBPASS  
+          - name: DBPORT
+            valueFrom:
+              configMapKeyRef:
+                name: app-configmap
+                key: db-port
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-service-service
+spec:
+  type: LoadBalancer
+  #externalTrafficPolicy: Local
+  selector:
+    app: db-service-deployment
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017
+      nodePort: 31017

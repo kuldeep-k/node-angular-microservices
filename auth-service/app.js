@@ -13,12 +13,48 @@ var authService = require('./services/auth-service');
 var mongoose = require('mongoose');
 var cors = require('cors');
 
-mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost/node-microservices');
-mongoose.set('debug', true);
+// mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost/node-microservices');
+// mongoose.set('debug', true);
 
 const { UnauthorizedError } = require('express-jwt');
 
 var app = express();
+
+
+
+
+const getDb = require('./config/db')
+
+const connectToDB = () => {
+  console.log(new Date() + " : <<< Trying to connect >>> ");
+  getDb().then(conn => {
+    console.log(new Date() + " : <<< DB Connected >>>");
+    
+    console.log(process.env.MONGO_URI || 'mongodb://localhost/node-microservices');
+    // mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost/node-microservices');
+    mongoose.set('debug', true);
+    clearTimeout();
+    app.use('/', indexRouter);
+    app.use('/auth', authRouter);
+    
+    authService.userSeeder().then(() => {
+      console.log("Seed Executed");
+    });
+        
+  }).catch(() => {
+    console.log(new Date() + " : <<< Got Connection Error >>>");
+    
+    setTimeout(() => {
+      connectToDB();
+    
+    }, 10000);
+
+  });
+}
+
+connectToDB();
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -38,12 +74,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(fileUpload({
   limits: { fileSize: 50 * 1024 * 1024 },
 }));
-app.use('/', indexRouter);
-app.use('/auth', authRouter);
-
-authService.userSeeder().then(() => {
-  console.log("Seed Executed");
-});
 
 app.use((err, req, res, next) => {
   console.error("Status Code " + res.statusCode)

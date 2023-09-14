@@ -1,0 +1,69 @@
+#apiVersion: networking.k8s.io/v1
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service-deployment
+  labels:
+    app: order-service-deployment
+spec:
+  selector:
+    matchLabels:
+      app: order-service-deployment
+  replicas: 2    
+  template:
+  
+    metadata:
+      labels:
+        app: order-service-deployment
+    spec:
+      containers:
+        - name: order-service-container
+          image: kuldeepkm/sample-shopping-app-order-service
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "0.1"
+          ports:
+            - containerPort: 3000
+          env:
+            - name: SEC_DBUSER
+              valueFrom:
+                secretKeyRef: 
+                  name:  app-secrets
+                  key: SEC_DBUSER
+            - name: SEC_DBPASS
+              valueFrom:
+                secretKeyRef: 
+                  name:  app-secrets
+                  key: SEC_DBPASS
+            - name: DBURL
+              valueFrom:
+                configMapKeyRef:
+                  name: app-configmap
+                  key: db-service
+            - name: MONGO_URI
+              value: mongodb://$(SEC_DBUSER):$(SEC_DBPASS)@$(DBURL)
+            - name: TLS
+              value: "0"
+            - name: PRODUCT_API_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: app-configmap
+                  key: product_api_url  
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-service-service
+spec:
+  type: LoadBalancer
+  # externalTrafficPolicy: Local
+  selector:
+    app: order-service-deployment
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+      nodePort: 30012
