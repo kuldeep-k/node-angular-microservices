@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>Home</h2>
+
+<div mat-dialog-content>
+  <label>Quantity</label><input type="text" [(ngModel)]="data.qty" /> 
+  <button mat-raised-button color="primary" [mat-dialog-close]="data.qty" cdkFocusInitial>Set Quantity</button>
+  <button mat-raised-button color="primary" (click)="closeMe()">Close</button>
+</div>
+
