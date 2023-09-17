@@ -31,6 +31,8 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatButtonModule} from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatDialogModule} from '@angular/material/dialog';
+
 import { ProductFormComponent } from './products/product-form/product-form.component';
 import { BreadcrumbComponent } from './common/breadcrumb/breadcrumb.component';
 import { HeaderComponent } from './common/header/header.component';
@@ -40,6 +42,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import { ProfileComponent } from './auth/profile/profile.component';
 import { ChangePasswordComponent } from './auth/change-password/change-password.component';
 import {MatSelectModule} from '@angular/material/select';
+// import { CartQuantityDialogComponent } from './home/cart-quantity-dialog/cart-quantity-dialog.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +50,7 @@ import {MatSelectModule} from '@angular/material/select';
     ProductsComponent,
     HomeComponent,
     ShippingListComponent,
+    // CartQuantityDialogComponent,
     CartListComponent,
     OrderListComponent,
     OrderDetailsListComponent,
@@ -74,6 +78,7 @@ import {MatSelectModule} from '@angular/material/select';
     FormsModule,
     NgxSkeletonLoaderModule,
     MatMenuModule,
+    MatDialogModule,
     MatToolbarModule, MatButtonModule, MatIconModule, 
     MatInputModule,
     MatFormFieldModule,

@@ -9,4 +9,5 @@ data:
   db-name: node-microservices
   db-service: db-service-service
   product_api_url: product-service-service
+  product_image_url: product-service-service
   # DSN: mongodb://admin:admin$123@db-srv:27017/testdb

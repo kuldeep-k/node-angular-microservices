@@ -4,6 +4,9 @@ import { ProductsService } from '../../services/products.service';
 import { CartService } from '../../services/cart.service';
 import { ToastrService } from 'ngx-toastr';
 
+import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import { CartQuantityDialogComponent } from '../cart-quantity-dialog/cart-quantity-dialog.component';
+
 @Component({
   selector: 'app-shipping-list',
   templateUrl: './shipping-list.component.html',
@@ -15,7 +18,8 @@ export class ShippingListComponent {
   carts: CartItem[] = [];
   selectedProduct: Product = {} as Product;
   selectedProductQty: number = 0;
-  constructor(private productsService: ProductsService, private cartService: CartService, private toastr: ToastrService ) {
+  constructor(private productsService: ProductsService, private cartService: CartService, private toastr: ToastrService,
+    private dialog: MatDialog ) {
     this.products = [
 
     ];
@@ -43,7 +47,7 @@ export class ShippingListComponent {
   }
 
   openCartQtyBox(product: Product) {
-    this.toastr.success('Success!', "SS");
+    // this.toastr.success('Success!', "SS");
     console.log("this.carts ", this.carts);
     console.log("product ", product);
     const temp = this.carts.filter(e => ( e.id == product._id ) );
@@ -51,7 +55,18 @@ export class ShippingListComponent {
       alert("Item is already exists in cart");
     } else {
       this.selectedProduct = product;
-      this.qtySetBoxOpen = true;
+      // this.qtySetBoxOpen = true;
+
+      const dialogRef = this.dialog.open(CartQuantityDialogComponent, {
+        data: {qty: 0},
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed');
+        console.log("Shop Diag Close " + result);
+        this.selectedProductQty = result;
+        this.addToCart();
+      });
     }
   }
 
@@ -60,6 +75,7 @@ export class ShippingListComponent {
   // }
 
   addToCart() {
+    console.log("Shop Add to cart ");
     console.log("this.carts ", this.carts);
     console.log("selectedProduct ", this.selectedProduct);
     const temp = this.carts.filter(e => ( e.id == this.selectedProduct._id ) );
@@ -79,7 +95,7 @@ export class ShippingListComponent {
         qty: this.selectedProductQty
       }).subscribe(data => {
         console.log("Data added to cart " + data);
-        this.toastr.error('Added to Cart!', "In Cart");
+        this.toastr.success('Added to Cart!', "In Cart");
       }, err => {
         console.log("Failure in adding to cart ");
         console.log(err);

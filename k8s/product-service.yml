@@ -51,6 +51,13 @@ spec:
                 configMapKeyRef:
                   name: app-configmap
                   key: db-name
+            - name: PRODUCT_IMAGE_SRV
+              valueFrom:
+                configMapKeyRef:
+                  name: app-configmap
+                  key: product_image_url
+            - name: PRODUCT_IMAGE_HOST
+              value: http://$(PRODUCT_IMAGE_SRV)/
                   
             - name: MONGO_URI
               value: mongodb://$(SEC_DBUSER):$(SEC_DBPASS)@$(DBURL):$(DBPORT)/$(DBNAME)?authSource=admin

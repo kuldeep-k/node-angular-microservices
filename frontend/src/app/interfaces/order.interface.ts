@@ -13,7 +13,8 @@ export interface Order {
 
 export interface Product {
     _id: String;
-    name: String;    
+    name: String; 
+    productImageUrl: String;   
 }
 
 export interface OrderDetails {
@@ -28,6 +29,7 @@ export interface OrderDetailsObject {
     orderId: String;
     productId: String;
     productName: String;
+    productImageUrl: String;
     qty: Number;
     price: Number;
 }

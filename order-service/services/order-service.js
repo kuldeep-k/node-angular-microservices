@@ -3,6 +3,7 @@ const cartDetailsModel = require("../models/CartDetails");
 
 const orderModel = require("../models/Order");
 const orderDetailsModel = require("../models/OrderDetails");
+const util = require("../helpers/util");
 
 const ProductClient = require("../helpers/product-client");
 var randomstring = require("randomstring");
@@ -10,8 +11,14 @@ var randomstring = require("randomstring");
 const ObjectId = require('mongoose').Types.ObjectId;
 
 class OrderService {
-    
-    async addOrder(userId, order) {
+    req = null;
+    token = null;
+    setRequest(req) {
+        this.req = req;
+        this.token = util.extractTokenFromRequest(this.req);
+        ProductClient.injectToken(this.token);
+    }    
+    async addOrder(userId, order, req) {
         let cartObj = await cartModel.findOne({userId: userId});
         if(!cartObj) {
             throw new Error("No Item exists in cart");
@@ -32,6 +39,7 @@ class OrderService {
                 throw new Error("Facing some issue to get stock")
             }
         })).then( async (result) => {
+            console.log("In AddOrder ");
             let cartObj = await cartModel.findOne({userId: userId});
             if(!cartObj) {
                 throw new Error("No Cart exists for User");
@@ -59,7 +67,9 @@ class OrderService {
                     qty: cartDetailsList[i].qty,
                     price: cartDetailsList[i].price,                    
                 });
-                // ProductClient.reduceProductQtyFromInventory(cartDetailsList[i].productId, cartDetailsList[i].qty );
+                console.log("Initate Qty Reduce process ", [cartDetailsList[i].productId, cartDetailsList[i].qty]);
+                
+                await ProductClient.reduceProductQtyFromInventory(cartDetailsList[i].productId, cartDetailsList[i].qty );
             }
     
             

@@ -12,7 +12,10 @@ const algo = process.env.TOKEN_ALGO ?  [process.env.TOKEN_ALGO] : ["HS256"];
 router.post('/', jwt({ secret: secret, algorithms: algo }), async (req, res, next) => {
     try {
         const body = req.body;
-        const orderDetails = await OrderService.addOrder(req.auth.id, req.body);
+        // OrderService.setRequest(req);
+        // const token = extractTokenFromRequest(req);
+        OrderService.setRequest(req);
+        const orderDetails = await OrderService.addOrder(req.auth.id, req.body, req);
         return res.status(200).json(orderDetails);
     } catch (error) {
         next(error)

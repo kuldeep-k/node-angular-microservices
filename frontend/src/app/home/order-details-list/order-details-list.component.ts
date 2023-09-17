@@ -10,9 +10,9 @@ import { OrderService } from 'src/app/services/order.service';
 })
 export class OrderDetailsListComponent {
   orderId: String = "";
-  orderDetails: OrderDetailsObject[] = [];
-  actualColumns: string[] = ['_id', 'productName', 'qty', 'price'];
-  displayedColumns: string[] = ['_id', 'productName', 'qty', 'price'];
+  orderDetails: OrderDetailsObject[] = []; 
+  actualColumns: string[] = ['_id', 'productImageUrl', 'productName',  'qty', 'price'];
+  displayedColumns: string[] = ['productImageUrl', 'productName',  'qty', 'price'];
 
   constructor(private route: ActivatedRoute, private orderService: OrderService) {
     this.orderId = this.route.snapshot.params['id'];
@@ -29,6 +29,7 @@ export class OrderDetailsListComponent {
         // a.amount = Number(cart.price) * Number(cart.qty);
         let ot: any = order;
         ot.productName = order.product.name;
+        ot.productImageUrl = order.product.productImageUrl ? order.product.productImageUrl : "";
         return ot;
       });
         

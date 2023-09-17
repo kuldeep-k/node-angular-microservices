@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
     
 });
 
-router.post('/', jwt({ secret: secret, algorithms: algo }), async (req, res) => {
+router.post('/', jwt({ secret: secret, algorithms: algo }), async (req, res, next) => {
     try {
         console.log("req.body " + req.body);
         const newproduct = await ProductService.addProduct(req.body);
@@ -25,7 +25,7 @@ router.post('/', jwt({ secret: secret, algorithms: algo }), async (req, res) => 
     }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', async (req, res, next) => {
     try {
         const product = await ProductService.getProduct(req.params.id);
         return res.status(200).json(product);
@@ -34,7 +34,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.patch('/:id', jwt({ secret: secret, algorithms: algo }), async (req, res) => {
+router.patch('/:id', jwt({ secret: secret, algorithms: algo }), async (req, res, next) => {
     try {
         const product = await ProductService.updateProduct(req.params.id, req.body);
         return res.status(200).json(product);
@@ -42,7 +42,7 @@ router.patch('/:id', jwt({ secret: secret, algorithms: algo }), async (req, res)
         next(error);
     }
 });
-router.patch('/:id/upload-image', jwt({ secret: secret, algorithms: algo }), async (req, res) => {
+router.patch('/:id/upload-image', jwt({ secret: secret, algorithms: algo }), async (req, res, next) => {
     try {
         const product = await ProductService.uploadImage(req.params.id, req.body, req.files);
         return res.status(200).json(product);
@@ -51,7 +51,7 @@ router.patch('/:id/upload-image', jwt({ secret: secret, algorithms: algo }), asy
     }
 });
 
-router.delete('/:id', jwt({ secret: secret, algorithms: algo }), async (req, res) => {
+router.delete('/:id', jwt({ secret: secret, algorithms: algo }), async (req, res, next) => {
     try {
         await ProductService.deleteProduct(req.params.id);
         return res.status(204).send();
@@ -60,7 +60,7 @@ router.delete('/:id', jwt({ secret: secret, algorithms: algo }), async (req, res
     }
 });
 
-router.patch('/:id/reduce-qty', jwt({ secret: secret, algorithms: algo }), async (req, res) => {
+router.patch('/:id/reduce-qty', jwt({ secret: secret, algorithms: algo }), async (req, res, next) => {
     try {
         const product = await ProductService.reduceQtyFromProduct(req.params.id, req.body);
         return res.status(200).json(product);
@@ -69,7 +69,7 @@ router.patch('/:id/reduce-qty', jwt({ secret: secret, algorithms: algo }), async
     }
 });
 
-router.patch('/:id/add-qty', jwt({ secret: secret, algorithms: algo }), async (req, res) => {
+router.patch('/:id/add-qty', jwt({ secret: secret, algorithms: algo }), async (req, res, next) => {
     try {
         const product = await ProductService.addQtyToProduct(req.params.id, req.body);
         return res.status(200).json(product);

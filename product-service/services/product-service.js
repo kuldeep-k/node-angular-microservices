@@ -21,24 +21,36 @@ class ProductService {
     async getProducts(reqQuery) {
         console.log("reqQuery ", reqQuery);
         let ids = [];
+        let products = [];
         if(reqQuery && reqQuery.id) {
             if(Array.isArray(reqQuery.id)) {
                 ids = reqQuery.id.map(id => new mongoose.Types.ObjectId(id));        
             } else {
                 ids = [new mongoose.Types.ObjectId(reqQuery.id)];
             }
-            return await productModel.find({_id: {$in: ids}});
+            products = await productModel.find({_id: {$in: ids}});
+
+            
         } else {
-            return await productModel.find();
+            products = await productModel.find();
         }
+
+        products = products.map((product) => {
+            product = product.toObject();
+            product.productImageUrl = this.getDefaultImagePath(product.productPictures);
+            return product
+        });
+        return products;
         
     }
 
     async getProduct(id) {
-        const product = await productModel.findById(id);
+        let product = await productModel.findById(id);
         if(!product) {
             throw new Error("Invalid product id");
         }
+        product = product.toObject();
+        product.productImageUrl = this.getDefaultImagePath(product.productPictures);
         return product;
         // const selectedProduct = this.products.filter(product => product.id == id);
         // if(Array.isArray(selectedProduct) && selectedProduct.length > 0) {
@@ -160,6 +172,17 @@ class ProductService {
         //     return productToSave;
         // }
         // return null;
+    }
+
+    getDefaultImagePath(productImages) {
+        const productImageHost = process.env.PRODUCT_IMAGE_HOST || "http://localhost:3001/"; 
+        let defaultProductImagePath = "";
+        productImages.forEach(productImage => {
+            if(productImage.default == true) {
+                defaultProductImagePath = productImageHost + "/" + productImage.path;        
+            }
+        });
+        return defaultProductImagePath;
     }
 
 }
