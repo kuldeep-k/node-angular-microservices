@@ -1,10 +1,10 @@
 # Node/Express based Sample Micro Services Application / Angular Frontend
 
-Application is practice e-commerce app for Node je based microservices. Following features/component are in app. 
+Application is practice e-commerce app for Node js based microservices. Following features/component are in app. 
 
 - Auth Service ( Node / Express  ) to check login/sign up and User creation. Later can be extended to include full RBAC/ACL .
 
-- Product Service ( Node / Express  ) have a Basic Prooduct CRUD .
+- Product Service ( Node / Express  ) have a Basic Product CRUD .
 
 - Order Service  ( Node / Express  ) do all transactional operations like Cart/Order/Payment management. 
 
@@ -16,4 +16,6 @@ Application is practice e-commerce app for Node je based microservices. Followin
 
 - Docker : Local deployment can be checked with Docker Compose
 
-- Kubernetes : Local deployment can also be checked with integrated minikube based Kubernetes. Later targeted to intergared with AWS/Google and Micorsoft Cloud based kubernetes services. 
+- Kubernetes : Local deployment can also be checked with minikube based Kubernetes. Later aim to integrate with AWS/Google and Micorsoft Cloud based kubernetes services. 
+
+
